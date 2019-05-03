@@ -1,24 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Tab, Tabs } from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
+import React, { useState } from "react";
+import SwipeableViews from "react-swipeable-views";
+import BetterForm from "./Container/BetterForm";
+import SimpleForm from "./Container/SimpleForm";
 
 function App() {
+  const [tabValue, setTabValue] = useState(0);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <CssBaseline />
+      <Typography align="center" color="primary" variant="h4" gutterBottom>
+        Formik Demo
+      </Typography>
+      <Tabs
+        value={tabValue}
+        onChange={(_, value) => setTabValue(value)}
+        indicatorColor="primary"
+        textColor="primary"
+        variant="fullWidth"
+      >
+        <Tab label="Simple Form" />
+        <Tab label="Better Form" />
+      </Tabs>
+      <SwipeableViews
+        index={tabValue}
+        onChangeIndex={index => setTabValue(index)}
+      >
+        <SimpleForm />
+        <BetterForm />
+      </SwipeableViews>
     </div>
   );
 }

@@ -1,0 +1,7 @@
+.Form {
+  display: "flex";
+}
+
+.FormElement {
+  flex: 0.3;
+}
