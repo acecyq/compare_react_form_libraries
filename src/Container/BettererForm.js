@@ -20,14 +20,14 @@ const styles = theme => ({
   }
 });
 
-function BettererForm({ classes, steps, ...formikProps }) {
-  const { handleBlur, handleSubmit, setFieldValue } = formikProps;
+function BettererForm({ classes, steps, setSteps, ...formikProps }) {
+  const { handleBlur, isSubmitting, setFieldValue, submitForm } = formikProps;
 
   return (
     <Grid container justify="space-around" alignContent="flex-start">
-      <Grid item xs={4}>
+      <Grid item md={4} xs={12}>
         <Paper className={classes.paper} elevation={10} square>
-          <Form onSubmit={handleSubmit}>
+          <Form>
             <Typography align="center" color="textPrimary" variant="body2">
               Fill in your particulars
             </Typography>
@@ -86,6 +86,7 @@ function BettererForm({ classes, steps, ...formikProps }) {
                   variant="outlined"
                   color="primary"
                   type="submit"
+                  disabled={isSubmitting}
                 >
                   Submit
                 </Button>
@@ -97,20 +98,25 @@ function BettererForm({ classes, steps, ...formikProps }) {
                   variant="outlined"
                   color="secondary"
                   type="reset"
+                  disabled={isSubmitting}
                 >
                   Reset
                 </Button>
               </Grid>
             </Grid>
 
-            {steps > 5 && (
+            {steps > 4 && (
               <Grid container justify="center">
                 <Grid item xs={6}>
                   <Button
                     className={classes.formElement}
                     variant="outlined"
                     color="default"
-                    type="submit"
+                    onClick={() => {
+                      setSteps(10);
+                      submitForm();
+                    }}
+                    disabled={isSubmitting}
                   >
                     Final Submit
                   </Button>
@@ -120,9 +126,9 @@ function BettererForm({ classes, steps, ...formikProps }) {
           </Form>
         </Paper>
       </Grid>
-      <Grid item xs={7}>
+      <Grid item md={7} xs={12}>
         <Paper className={classes.paper} elevation={10} square>
-          <Debug values={{ steps, ...formikProps }} />
+          <Debug values={formikProps} />
         </Paper>
       </Grid>
     </Grid>

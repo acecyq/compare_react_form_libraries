@@ -65,20 +65,29 @@ function App() {
           validationSchema={simpleFormValidationSchema}
         />
         <Formik
-          render={props => <BettererForm steps={steps} {...props} />}
+          render={props => (
+            <BettererForm steps={steps} setSteps={setSteps} {...props} />
+          )}
           initialValues={{
             name: {
               firstName: ""
             }
           }}
           onSubmit={(values, { setSubmitting }) => {
-            console.log("form is submitted");
+            if (steps < 10) {
+              console.log("form is submitted");
+
+              setBettererFormSchema(
+                bettererFormSchema.concat(bettererFormSchemas[steps])
+              );
+              if (steps < 5) {
+                setSteps(steps + 1);
+              }
+              setSubmitting(false);
+            } else {
+              console.log("finally submitted");
+            }
             console.log("form values", values);
-            setBettererFormSchema(
-              bettererFormSchema.concat(bettererFormSchemas[steps])
-            );
-            setSteps(steps + 1);
-            setSubmitting(false);
           }}
           validationSchema={bettererFormSchema}
           validateOnChange={false}

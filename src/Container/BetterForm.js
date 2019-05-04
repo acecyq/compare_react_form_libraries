@@ -21,13 +21,13 @@ const styles = theme => ({
 });
 
 function BetterForm({ classes, ...formikProps }) {
-  const { handleBlur, handleSubmit, setFieldValue } = formikProps;
+  const { handleBlur, setFieldValue } = formikProps;
 
   return (
     <Grid container justify="space-around" alignContent="flex-start">
-      <Grid item xs={4}>
+      <Grid item md={4} xs={12}>
         <Paper className={classes.paper} elevation={10} square>
-          <Form onSubmit={handleSubmit}>
+          <Form>
             <Typography align="center" color="textPrimary" variant="body2">
               Fill in your particulars
             </Typography>
@@ -95,7 +95,7 @@ function BetterForm({ classes, ...formikProps }) {
           </Form>
         </Paper>
       </Grid>
-      <Grid item xs={7}>
+      <Grid item md={7} xs={12}>
         <Paper className={classes.paper} elevation={10} square>
           <Debug values={{ formikProps }} />
         </Paper>
