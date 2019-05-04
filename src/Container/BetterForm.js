@@ -1,17 +1,10 @@
-import {
-  Button,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-  withStyles
-} from "@material-ui/core";
-import { ErrorMessage, Field, Form, withFormik } from "formik";
+import { Button, Grid, Paper, Typography, withStyles } from "@material-ui/core";
+import { Form } from "formik";
+import PropTypes from "prop-types";
 import React from "react";
-import { compose } from "recompose";
 import Debug from "../Component/Debug";
-import { simpleFormValidationScheme } from "./constants";
 import FormikTextField from "../Component/FormikTextField";
+import { formikPropsShape } from "./constants";
 
 const styles = theme => ({
   formElement: {
@@ -27,8 +20,8 @@ const styles = theme => ({
   }
 });
 
-function SimpleForm({ classes, ...formikProps }) {
-  const { handleSubmit } = formikProps;
+function BetterForm({ classes, ...formikProps }) {
+  const { handleBlur, handleSubmit, setFieldValue } = formikProps;
 
   return (
     <Grid container justify="space-around" alignContent="flex-start">
@@ -42,59 +35,39 @@ function SimpleForm({ classes, ...formikProps }) {
             <FormikTextField
               name="name.firstName"
               label="First Name"
-              textFieldProps={{ autoFocus: true }}
+              setFieldValue={setFieldValue}
+              handleBlur={handleBlur}
             />
-            <FormikTextField name="name.lastName" label="Last Name" />
-            <FormikTextField name="email" label="Email Address" />
-            <FormikTextField name="address.streetName" label="Street Name" />
-
-            {/* <Field name="address.blockNumber">
-              {({ field }) => (
-                <TextField
-                  {...field}
-                  className={classes.formElement}
-                  fullWidth
-                  id="blockNumber"
-                  label={<Typography>Block Number</Typography>}
-                  placeholder="Block Number"
-                  variant="outlined"
-                />
-              )}
-            </Field>
-            <Grid classes={{ item: classes.errorMessage }} item xs={12}>
-              <ErrorMessage name="address.blockNumber">
-                {error => (
-                  <Typography align="left" color="error" variant="body2">
-                    {error}
-                  </Typography>
-                )}
-              </ErrorMessage>
-            </Grid> */}
-            <FormikTextField name="address.blockNumber" label="Block Number" />
-
-            {/* <Field name="address.unitNumber">
-              {({ field }) => (
-                <TextField
-                  {...field}
-                  className={classes.formElement}
-                  fullWidth
-                  id="unitNumber"
-                  label={<Typography>Unit Number</Typography>}
-                  placeholder="Unit Number"
-                  variant="outlined"
-                />
-              )}
-            </Field>
-            <Grid classes={{ item: classes.errorMessage }} item xs={12}>
-              <ErrorMessage name="address.unitNumber">
-                {error => (
-                  <Typography align="left" color="error" variant="body2">
-                    {error}
-                  </Typography>
-                )}
-              </ErrorMessage>
-            </Grid> */}
-            <FormikTextField name="address.unitNumber" label="Unit Number" />
+            <FormikTextField
+              name="name.lastName"
+              label="Last Name"
+              setFieldValue={setFieldValue}
+              handleBlur={handleBlur}
+            />
+            <FormikTextField
+              name="email"
+              label="Email Address"
+              setFieldValue={setFieldValue}
+              handleBlur={handleBlur}
+            />
+            <FormikTextField
+              name="address.streetName"
+              label="Street Name"
+              setFieldValue={setFieldValue}
+              handleBlur={handleBlur}
+            />
+            <FormikTextField
+              name="address.blockNumber"
+              label="Block Number"
+              setFieldValue={setFieldValue}
+              handleBlur={handleBlur}
+            />
+            <FormikTextField
+              name="address.unitNumber"
+              label="Unit Number"
+              setFieldValue={setFieldValue}
+              handleBlur={handleBlur}
+            />
 
             <Grid container justify="space-around" alignItems="center">
               <Grid item xs={4}>
@@ -131,28 +104,11 @@ function SimpleForm({ classes, ...formikProps }) {
   );
 }
 
-export default compose(
-  withFormik({
-    displayName: "Simple Form",
-    handleSubmit: (values, { setSubmitting }) => {
-      console.log("form is submitted");
-      console.log("form values", values);
-      setSubmitting(false);
-    },
-    mapPropsToValues: () => ({
-      name: {
-        firstName: "",
-        lastName: ""
-      },
-      email: "",
-      address: {
-        streetName: "",
-        blockNumber: "",
-        unitNumber: ""
-      }
-    }),
-    validationSchema: simpleFormValidationScheme,
-    validateOnChange: false
-  }),
-  withStyles(styles)
-)(SimpleForm);
+BetterForm.propTypes = {
+  classes: PropTypes.object.isRequired,
+  values: PropTypes.shape({
+    formikProps: formikPropsShape
+  })
+};
+
+export default withStyles(styles)(BetterForm);

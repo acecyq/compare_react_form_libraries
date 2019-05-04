@@ -7,10 +7,11 @@ import {
   withStyles
 } from "@material-ui/core";
 import { ErrorMessage, Field, Form, withFormik } from "formik";
+import PropTypes from "prop-types";
 import React from "react";
 import { compose } from "recompose";
 import Debug from "../Component/Debug";
-import { simpleFormValidationScheme } from "./constants";
+import { formikPropsShape, simpleFormValidationSchema } from "./constants";
 
 const styles = theme => ({
   formElement: {
@@ -43,7 +44,6 @@ function SimpleForm({ classes, ...formikProps }) {
                 <TextField
                   {...field}
                   className={classes.formElement}
-                  autoFocus
                   fullWidth
                   id="firstName"
                   label={<Typography>First Name</Typography>}
@@ -212,6 +212,13 @@ function SimpleForm({ classes, ...formikProps }) {
   );
 }
 
+SimpleForm.propTypes = {
+  classes: PropTypes.object.isRequired,
+  values: PropTypes.shape({
+    formikProps: formikPropsShape
+  })
+};
+
 export default compose(
   withFormik({
     displayName: "Simple Form",
@@ -232,7 +239,7 @@ export default compose(
         unitNumber: ""
       }
     }),
-    validationSchema: simpleFormValidationScheme,
+    validationSchema: simpleFormValidationSchema,
     validateOnChange: false
   }),
   withStyles(styles)

@@ -1,5 +1,12 @@
-import { Grid, TextField, Typography, withStyles } from "@material-ui/core";
-import { Field, ErrorMessage } from "formik";
+import {
+  Fab,
+  Grid,
+  InputAdornment,
+  TextField,
+  Typography,
+  withStyles
+} from "@material-ui/core";
+import { ErrorMessage, Field } from "formik";
 import React from "react";
 
 const styles = theme => ({
@@ -12,22 +19,51 @@ const styles = theme => ({
   }
 });
 
-function FormikTextField({ classes, name, label, fieldProps, textFieldProps }) {
+function FormikTextField({
+  classes,
+  name,
+  label,
+  fieldProps,
+  setFieldValue,
+  textFieldProps,
+  handleBlur
+}) {
   return (
     <React.Fragment>
       <Field name={name} {...fieldProps}>
-        {({ field }) => (
-          <TextField
-            {...field}
-            className={classes.formElement}
-            fullWidth
-            id="firstName"
-            label={<Typography>{label}</Typography>}
-            placeholder={label}
-            variant="outlined"
-            {...textFieldProps}
-          />
-        )}
+        {({ field }) => {
+          return (
+            <TextField
+              {...field}
+              className={classes.formElement}
+              fullWidth
+              id={name.split()[0]}
+              label={<Typography>{label}</Typography>}
+              placeholder={label}
+              variant="outlined"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Fab
+                      size="small"
+                      color="secondary"
+                      onClick={async () => {
+                        // clear field value
+                        await setFieldValue(name, "");
+
+                        // performs on blur on the field. Validation is async
+                        await handleBlur();
+                      }}
+                    >
+                      X
+                    </Fab>
+                  </InputAdornment>
+                )
+              }}
+              {...textFieldProps}
+            />
+          );
+        }}
       </Field>
       <Grid classes={{ item: classes.errorMessage }} item xs={12}>
         <ErrorMessage name={name}>
