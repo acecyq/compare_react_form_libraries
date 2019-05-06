@@ -7,15 +7,19 @@ import SwipeableViews from "react-swipeable-views";
 import BettererForm from "./Container/BettererForm";
 import BetterForm from "./Container/BetterForm";
 import {
+  bettererFormInitialValues,
+  bettererFormSchemas,
+  bettererFormValues,
   initialBettererFormSchema,
-  simpleFormValidationSchema,
-  bettererFormSchemas
+  simpleFormValidationSchema
 } from "./Container/constants";
 import SimpleForm from "./Container/SimpleForm";
+import { mergeObjects, submitFormBasic } from "./Container/utilities";
 
 function App() {
   const [tabValue, setTabValue] = useState(0);
   const [steps, setSteps] = useState(0);
+  const [initialValues, setInitialValues] = useState(bettererFormInitialValues);
   const [bettererFormSchema, setBettererFormSchema] = useState(
     initialBettererFormSchema
   );
@@ -57,9 +61,7 @@ function App() {
             }
           }}
           onSubmit={(values, { setSubmitting }) => {
-            console.log("form is submitted");
-            console.log("form values", values);
-            setSubmitting(false);
+            submitFormBasic(values, setSubmitting);
           }}
           validateOnChange={false}
           validationSchema={simpleFormValidationSchema}
@@ -68,26 +70,25 @@ function App() {
           render={props => (
             <BettererForm steps={steps} setSteps={setSteps} {...props} />
           )}
-          initialValues={{
-            name: {
-              firstName: ""
-            }
-          }}
+          enableReinitialize
+          initialValues={initialValues}
           onSubmit={(values, { setSubmitting }) => {
-            if (steps < 10) {
-              console.log("form is submitted");
-
+            console.log("form values", values);
+            if (steps < 5) {
               setBettererFormSchema(
                 bettererFormSchema.concat(bettererFormSchemas[steps])
               );
-              if (steps < 5) {
-                setSteps(steps + 1);
-              }
-              setSubmitting(false);
-            } else {
-              console.log("finally submitted");
+              setInitialValues(mergeObjects(values, bettererFormValues[steps]));
+              setSteps(steps + 1);
             }
-            console.log("form values", values);
+            
+            if (steps < 6) {
+              console.log("form is submitted");
+              setSubmitting(false);
+              return;
+            }
+
+            console.log("form is finally submitted");
           }}
           validationSchema={bettererFormSchema}
           validateOnChange={false}

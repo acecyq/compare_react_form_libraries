@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import Debug from "../Component/Debug";
 import FormikTextField from "../Component/FormikTextField";
-import { bettererFormFormikPropsShape } from "./constants";
+import { bettererFormFormikPropsShape, items } from "./constants";
+import FormikSelectField from "../Component/FormikSelectField";
 
 const styles = theme => ({
   formElement: {
@@ -78,6 +79,7 @@ function BettererForm({ classes, steps, setSteps, ...formikProps }) {
                 handleBlur={handleBlur}
               />
             )}
+            <FormikSelectField data={items} />
 
             <Grid container justify="space-around" alignItems="center">
               <Grid item xs={4}>
@@ -113,7 +115,7 @@ function BettererForm({ classes, steps, setSteps, ...formikProps }) {
                     variant="outlined"
                     color="default"
                     onClick={() => {
-                      setSteps(10);
+                      setSteps(steps + 1);
                       submitForm();
                     }}
                     disabled={isSubmitting}
@@ -137,9 +139,11 @@ function BettererForm({ classes, steps, setSteps, ...formikProps }) {
 
 BettererForm.propTypes = {
   classes: PropTypes.object.isRequired,
+  steps: PropTypes.number.isRequired,
+  setSteps: PropTypes.func.isRequired,
   values: PropTypes.shape({
     formikProps: bettererFormFormikPropsShape
-  })
+  }).isRequired
 };
 
 export default withStyles(styles)(BettererForm);

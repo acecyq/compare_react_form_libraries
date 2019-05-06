@@ -1,5 +1,6 @@
-import React from "react";
 import { Typography, withStyles } from "@material-ui/core";
+import PropTypes from "prop-types";
+import React from "react";
 
 const styles = theme => ({
   debug: {
@@ -21,5 +22,10 @@ function Debug({ classes, ...formikProps }) {
     </div>
   );
 }
+
+Debug.propTypes = {
+  classes: PropTypes.object.isRequired,
+  formikProps: PropTypes.object.isRequired
+};
 
 export default withStyles(styles)(Debug);

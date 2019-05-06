@@ -54,6 +54,38 @@ export const bettererFormFormikPropsShape = PropTypes.shape({
   validateOnBlur: PropTypes.bool.isRequired
 });
 
+export const bettererFormInitialValues = {
+  name: {
+    firstName: ""
+  }
+};
+
+export const bettererFormValues = [
+  {
+    name: {
+      lastName: ""
+    }
+  },
+  {
+    email: ""
+  },
+  {
+    address: {
+      streetName: ""
+    }
+  },
+  {
+    address: {
+      blockNumber: ""
+    }
+  },
+  {
+    address: {
+      unitNumber: ""
+    }
+  }
+];
+
 export const simpleFormValidationSchema = object().shape({
   name: object().shape({
     firstName: string()
@@ -121,4 +153,27 @@ export const bettererFormSchemas = [
         .required("Required")
     })
   })
+];
+
+export const items = [
+  {
+    label: "Hawaiian Pizza",
+    value: "hawaiianPizza",
+    price: 10
+  },
+  {
+    label: "Pepperoni Pizza",
+    value: "pepperoniPizza",
+    price: 11
+  },
+  {
+    label: "Chicken Supreme",
+    value: "chickenSupreme",
+    price: 12
+  },
+  {
+    label: "Seafood Supreme",
+    value: "seafoodSupreme",
+    price: 13
+  }
 ];

@@ -7,6 +7,7 @@ import {
   withStyles
 } from "@material-ui/core";
 import { ErrorMessage, Field } from "formik";
+import PropTypes from "prop-types";
 import React from "react";
 
 const styles = theme => ({
@@ -77,5 +78,17 @@ function FormikTextField({
     </React.Fragment>
   );
 }
+
+FormikTextField.propTypes = {
+  // Required
+  classes: PropTypes.object.isRequired,
+  handleBlur: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
+
+  fieldProps: PropTypes.object,
+  textFieldProps: PropTypes.object
+};
 
 export default withStyles(styles)(FormikTextField);

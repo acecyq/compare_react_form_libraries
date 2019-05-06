@@ -1,17 +1,11 @@
-import {
-  Button,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-  withStyles
-} from "@material-ui/core";
+import { Button, Grid, Paper, TextField, Typography, withStyles } from "@material-ui/core";
 import { ErrorMessage, Field, Form, withFormik } from "formik";
 import PropTypes from "prop-types";
 import React from "react";
 import { compose } from "recompose";
 import Debug from "../Component/Debug";
 import { formikPropsShape, simpleFormValidationSchema } from "./constants";
+import { submitFormBasic } from "./utilities";
 
 const styles = theme => ({
   formElement: {
@@ -221,9 +215,7 @@ export default compose(
   withFormik({
     displayName: "Simple Form",
     handleSubmit: (values, { setSubmitting }) => {
-      console.log("form is submitted");
-      console.log("form values", values);
-      setSubmitting(false);
+      submitFormBasic(values, setSubmitting);
     },
     mapPropsToValues: () => ({
       name: {
