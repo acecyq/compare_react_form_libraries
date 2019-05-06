@@ -25,7 +25,7 @@ function Debug({ classes, ...formikProps }) {
 
 Debug.propTypes = {
   classes: PropTypes.object.isRequired,
-  formikProps: PropTypes.object.isRequired
+  values: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Debug);

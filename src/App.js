@@ -74,15 +74,15 @@ function App() {
           initialValues={initialValues}
           onSubmit={(values, { setSubmitting }) => {
             console.log("form values", values);
-            if (steps < 5) {
+            if (steps < 6) {
               setBettererFormSchema(
                 bettererFormSchema.concat(bettererFormSchemas[steps])
               );
               setInitialValues(mergeObjects(values, bettererFormValues[steps]));
               setSteps(steps + 1);
             }
-            
-            if (steps < 6) {
+
+            if (steps < 7) {
               console.log("form is submitted");
               setSubmitting(false);
               return;

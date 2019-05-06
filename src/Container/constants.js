@@ -1,5 +1,5 @@
-import { object, string } from "yup";
 import PropTypes from "prop-types";
+import { number, object, string } from "yup";
 
 function getValueShape(type, isRequired) {
   return PropTypes.shape({
@@ -83,6 +83,9 @@ export const bettererFormValues = [
     address: {
       unitNumber: ""
     }
+  },
+  {
+    purchaseItem: {}
   }
 ];
 
@@ -151,6 +154,13 @@ export const bettererFormSchemas = [
       unitNumber: string()
         .matches(/^#[0-9]{1,2}[-]{1}[0-9]*$/, "Invalid Unit Number")
         .required("Required")
+    })
+  }),
+  object().shape({
+    purchaseItem: object().shape({
+      label: string().required("Required"),
+      value: string().required("Required"),
+      price: number().required("Required")
     })
   })
 ];

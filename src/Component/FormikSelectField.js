@@ -1,35 +1,82 @@
 import {
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   OutlinedInput,
-  Select
+  Select,
+  Typography,
+  withStyles
 } from "@material-ui/core";
-import React, { useState } from "react";
+import { ErrorMessage, Field } from "formik";
+import React from "react";
+import PropTypes from "prop-types";
 
-function FormikSelectField({ data }) {
-  const [purchaseItem, setPurchaseItem] = useState(data[0].value);
+const styles = {
+  selectFieldRoot: {
+    marginTop: 10
+  },
+  errorMessage: {
+    height: 22,
+    paddingLeft: 14
+  }
+};
 
+function FormikSelectField({ classes, name, label, data }) {
   return (
-    <FormControl fullWidth variant="outlined">
-      <InputLabel htmlFor="purchase-item">Purchase Item</InputLabel>
-      <Select
-        value={purchaseItem}
-        onChange={event => setPurchaseItem(event.target.value)}
-        input={
-          <OutlinedInput
-            labelWidth={22}
-            name="purchaseItem"
-            id="purchase-item"
-          />
-        }
-      >
-        {data.map(item => (
-          <MenuItem value={item.value}>{item.label}</MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <React.Fragment>
+      <Field name={name}>
+        {({ field }) => {
+          console.log(field);
+          return (
+            <React.Fragment>
+              <FormControl
+                classes={{ fullWidth: classes.selectFieldRoot }}
+                fullWidth
+                variant="outlined"
+              >
+                <InputLabel htmlFor={name}>{label}</InputLabel>
+                <Select
+                  {...field}
+                  input={
+                    <OutlinedInput labelWidth={105} name={name} id={name} />
+                  }
+                >
+                  {data.map(dataItem => (
+                    <MenuItem key={dataItem.value} value={dataItem}>
+                      {dataItem.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Grid classes={{ item: classes.errorMessage }} item xs={12}>
+                <ErrorMessage name={name}>
+                  {error => (
+                    <Typography align="left" color="error" variant="body2">
+                      {error.value}
+                    </Typography>
+                  )}
+                </ErrorMessage>
+              </Grid>
+            </React.Fragment>
+          );
+        }}
+      </Field>
+    </React.Fragment>
   );
 }
 
-export default FormikSelectField;
+FormikSelectField.propTypes = {
+  classes: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired
+    })
+  )
+};
+
+export default withStyles(styles)(FormikSelectField);

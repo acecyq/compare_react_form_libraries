@@ -21,8 +21,17 @@ const styles = theme => ({
   }
 });
 
-function BettererForm({ classes, steps, setSteps, ...formikProps }) {
-  const { handleBlur, isSubmitting, setFieldValue, submitForm } = formikProps;
+function BettererForm({ classes, ...formikProps }) {
+  const {
+    handleBlur,
+    isSubmitting,
+    setFieldValue,
+    setValues,
+    setSteps,
+    setTouched,
+    steps,
+    submitForm
+  } = formikProps;
 
   return (
     <Grid container justify="space-around" alignContent="flex-start">
@@ -79,7 +88,13 @@ function BettererForm({ classes, steps, setSteps, ...formikProps }) {
                 handleBlur={handleBlur}
               />
             )}
-            <FormikSelectField data={items} />
+            {steps > 5 && (
+              <FormikSelectField
+                name="purchaseItem"
+                label="Purchase Item"
+                data={items}
+              />
+            )}
 
             <Grid container justify="space-around" alignItems="center">
               <Grid item xs={4}>
@@ -99,15 +114,18 @@ function BettererForm({ classes, steps, setSteps, ...formikProps }) {
                   className={classes.formElement}
                   variant="outlined"
                   color="secondary"
-                  type="reset"
                   disabled={isSubmitting}
+                  onClick={() => {
+                    setValues({});
+                    setTouched({});
+                  }}
                 >
                   Reset
                 </Button>
               </Grid>
             </Grid>
 
-            {steps > 4 && (
+            {steps > 5 && (
               <Grid container justify="center">
                 <Grid item xs={6}>
                   <Button
