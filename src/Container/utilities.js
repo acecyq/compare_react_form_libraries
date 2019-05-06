@@ -17,3 +17,26 @@ export function mergeObjects(objectA, objectB) {
 
   return { ...objectA, ...objectB };
 }
+
+export function emptyObject(object, change = "") {
+  if (Array.isArray(object)) {
+    const result = object.map(value =>
+      typeof value === "object" ? emptyObject(value) : change
+    );
+
+    return result;
+  }
+
+  if (typeof object === "object") {
+    const clone = JSON.parse(JSON.stringify(object));
+    const result = {};
+    Object.keys(clone).forEach(key => {
+      result[key] =
+        typeof clone[key] === "object" ? emptyObject(clone[key]) : change;
+    });
+
+    return result;
+  }
+
+  return change;
+}

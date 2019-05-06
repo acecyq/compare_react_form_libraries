@@ -6,6 +6,7 @@ import Debug from "../Component/Debug";
 import FormikTextField from "../Component/FormikTextField";
 import { bettererFormFormikPropsShape, items } from "./constants";
 import FormikSelectField from "../Component/FormikSelectField";
+import { emptyObject } from "./utilities";
 
 const styles = theme => ({
   formElement: {
@@ -30,7 +31,8 @@ function BettererForm({ classes, ...formikProps }) {
     setSteps,
     setTouched,
     steps,
-    submitForm
+    submitForm,
+    values
   } = formikProps;
 
   return (
@@ -116,7 +118,7 @@ function BettererForm({ classes, ...formikProps }) {
                   color="secondary"
                   disabled={isSubmitting}
                   onClick={() => {
-                    setValues({});
+                    setValues(emptyObject(values));
                     setTouched({});
                   }}
                 >
